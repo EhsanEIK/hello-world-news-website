@@ -3,7 +3,8 @@ const loadCategories = () => {
     const url = `https://openapi.programming-hero.com/api/news/categories`;
     fetch(url)
         .then(res => res.json())
-        .then(data => showCategories(data.data.news_category));
+        .then(data => showCategories(data.data.news_category))
+        .catch(error => console.log(error));
 }
 const showCategories = categories => {
     const categoriesContainer = document.getElementById('categories-container');
@@ -18,3 +19,14 @@ const showCategories = categories => {
     });
 }
 loadCategories();
+
+// load & show news by category id
+const loadNews = async id => {
+    const url = `https://openapi.programming-hero.com/api/news/category/0${id}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    showNews(data.data);
+}
+const showNews = news => {
+    console.log(news);
+}
