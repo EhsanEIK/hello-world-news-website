@@ -6,8 +6,12 @@ const loadCategories = () => {
         .then(data => showCategories(data.data.news_category));
 }
 const showCategories = categories => {
+    const categoriesContainer = document.getElementById('categories-container');
     categories.forEach(category => {
-        console.log(category);
+        const button = document.createElement('button');
+        button.classList.add('btn', 'btn-outline-secondary', 'me-4');
+        button.innerText = category.category_name;
+        categoriesContainer.appendChild(button);
     });
 }
 loadCategories();
