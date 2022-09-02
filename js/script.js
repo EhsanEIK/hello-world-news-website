@@ -8,10 +8,13 @@ const loadCategories = () => {
 const showCategories = categories => {
     const categoriesContainer = document.getElementById('categories-container');
     categories.forEach(category => {
-        const button = document.createElement('button');
-        button.classList.add('btn', 'btn-outline-secondary', 'me-4');
-        button.innerText = category.category_name;
-        categoriesContainer.appendChild(button);
+        const div = document.createElement('div');
+        div.classList.add('m-3');
+        div.innerHTML = `
+        <button onclick=loadNews(${category.category_id}) class="btn btn-outline-secondary">${category.category_name}</button>
+        `;
+        categoriesContainer.appendChild(div);
+
     });
 }
 loadCategories();
