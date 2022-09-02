@@ -15,30 +15,33 @@ const showCategories = categories => {
         <button onclick="loadNews(${category.category_id})" class="btn btn-outline-secondary">${category.category_name}</button>
         `;
         categoriesContainer.appendChild(div);
-
     });
 }
 loadCategories();
 
 // load & show news by category id
 const loadNews = async id => {
-    const url = `https://openapi.programming-hero.com/api/news/category/0${id}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    showNews(data.data);
+    try {
+        const url = `https://openapi.programming-hero.com/api/news/category/0${id}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        showNews(data.data);
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
-const showNews = newses => {
+const showNews = allNews => {
     const newsContainer = document.getElementById('news-container');
     newsContainer.innerHTML = '';
-    newses.forEach(news => {
-        console.log(news);
+    allNews.forEach(news => {
         const div = document.createElement('div');
         div.classList.add('row', 'rounded-2', 'shadow', 'p-3', 'm-5');
         div.innerHTML = `
-        <div class="col-lg-4">
+        <div onclick="loadNewsDetails('${news._id}')" class="col-lg-4" data-bs-toggle="modal" data-bs-target="#newsDetailsModal">
             <img src="${news.thumbnail_url ? news.thumbnail_url : 'Not Given'}">
         </div>
-        <div class="col-lg-8">
+        <div onclick="loadNewsDetails('${news._id}')" class="col-lg-8" data-bs-toggle="modal" data-bs-target="#newsDetailsModal">
             <div class="row">
                 <div class="col-lg-12">
                     <h4 class="fw-bold">${news.title ? news.title : 'Not Given'}</h4>
@@ -65,11 +68,41 @@ const showNews = newses => {
                     </h6>
                 </div>
                 <div class="col-lg-2">
-                <button onclick="" class="btn btn-primary">Details</button>
+                <a href="#">
+                    <img src="./icons/right-arrow.png" style="width: 20px;">
+                </a>
                 </div>
             </div>
         </div>
         `;
         newsContainer.appendChild(div);
+    });
+}
+
+// load & show news details on modal by news_id
+const loadNewsDetails = id => {
+    const url = `https://openapi.programming-hero.com/api/news/${id}`;
+    fetch(url)
+        .then(res => res.json())
+        .then(data => showNewsDetails(data.data))
+        .catch(error => console.log(error));
+}
+const showNewsDetails = newsAllDetails => {
+    newsAllDetails.forEach(newsDetails => {
+        console.log(newsDetails);
+        const newsDetailsTitle = document.getElementById('newsDetailsModalLabel');
+        newsDetailsTitle.innerText = newsDetails.title;
+
+        const newsDetailsBody = document.getElementById('news-details-modal-body');
+        newsDetailsBody.innerHTML = `
+        <img src="${newsDetails.image_url ? newsDetails.image_url : 'Not Given'}" class="img-fluid my-3">
+        <p><span class="fw-bold">Author:</span> ${newsDetails.author ? newsDetails.author.name : 'Not Given'}</p>
+        <p><span class="fw-bold">Published Date:</span> ${newsDetails.author ? newsDetails.author.published_date : 'Not Given'}</p>
+        <p><span class="fw-bold">Is Trending:</span> ${newsDetails.others_info.is_trending ? newsDetails.others_info.is_trending : 'Not Given'}</p>
+        <p><span class="fw-bold">Is Today's Pick:</span> ${newsDetails.others_info.is_todays_pick ? newsDetails.others_info.is_todays_pick : 'Not Given'}</p>
+        <p><span class="fw-bold">Rating:</span> ${newsDetails.rating.number ? newsDetails.rating.number : 'Not Given'}, ${newsDetails.rating.badge ? newsDetails.rating.badge : 'Not Given'}</p>
+        <p><span class="fw-bold">View:</span> ${newsDetails.total_view ? newsDetails.total_view : 'Not Given'}</p>
+        <p><span class="fw-bold">Details:</span> ${newsDetails.details ? newsDetails.details : 'Not Given'}</p>
+        `;
     });
 }
