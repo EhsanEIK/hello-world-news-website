@@ -1,4 +1,6 @@
-// load & show categories
+/* =========================================
+            load & show all category
+=========================================== */
 const loadCategories = () => {
     const url = `https://openapi.programming-hero.com/api/news/categories`;
     fetch(url)
@@ -19,7 +21,9 @@ const showCategories = categories => {
 }
 loadCategories();
 
-// load & show news by category id
+/* ===============================================
+            load & show news by category_id
+================================================ */
 const loadNews = async (id, categoryName) => {
     try {
         // loader start
@@ -50,32 +54,32 @@ const showNews = (allNews, categoryName) => {
         div.classList.add('row', 'rounded-2', 'shadow', 'p-3', 'mt-5', 'mb-0', 'm-2');
         div.innerHTML = `
         <div onclick="loadNewsDetails('${news._id}')" class="col-lg-4" data-bs-toggle="modal" data-bs-target="#newsDetailsModal">
-            <img src="${news.thumbnail_url ? news.thumbnail_url : 'Not Given'}">
+            <img src="${news.thumbnail_url ? news.thumbnail_url : 'No Data Available'}">
         </div>
         <div onclick="loadNewsDetails('${news._id}')" class="col-lg-8" data-bs-toggle="modal" data-bs-target="#newsDetailsModal">
             <div class="row">
                 <div class="col-lg-12">
-                    <h4 class="fw-bold">${news.title ? news.title : 'Not Given'}</h4>
-                    <p>${news.details ? news.details.slice(0, 300) : 'Not Given'}...</p>
+                    <h4 class="fw-bold">${news.title ? news.title : 'No Data Available'}</h4>
+                    <p>${news.details ? news.details.slice(0, 300) : 'No Data Available'}...</p>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-lg-5">
                     <div class="row">
                         <div class="col-lg-3 d-flex align-items-center">
-                            <img src="${news.author.img ? news.author.img : 'Not Given'}" class="author-image rounded-circle">
+                            <img src="${news.author.img ? news.author.img : 'No Data Available'}" class="author-image rounded-circle">
                         </div>
                         <div class="col-lg-9">
                             <p class="fw-semibold">
-                            ${news.author.name ? news.author.name : 'Not Given'}
+                            ${news.author.name ? news.author.name : 'No Data Available'}
                             </p>
-                            <small>${news.author.published_date ? news.author.published_date : 'Not Given'}</small>
+                            <small>${news.author.published_date ? news.author.published_date : 'No Data Available'}</small>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-5">
                     <h6>
-                        <img src="./icons/view.png" class="icon"> ${news.total_view ? news.total_view : 'Not Given'}
+                        <img src="./icons/view.png" class="icon"> ${news.total_view ? news.total_view : 'No Data Available'}
                     </h6>
                 </div>
                 <div class="col-lg-2">
@@ -92,7 +96,9 @@ const showNews = (allNews, categoryName) => {
     toggleSpinner(false);
 }
 
-// load & show news details on modal by news_id
+/* ===============================================================
+            load & show news details on modal by news_id
+================================================================= */
 const loadNewsDetails = id => {
     const url = `https://openapi.programming-hero.com/api/news/${id}`;
     fetch(url)
@@ -102,25 +108,32 @@ const loadNewsDetails = id => {
 }
 const showNewsDetails = newsAllDetails => {
     newsAllDetails.forEach(newsDetails => {
-        console.log(newsDetails);
         const newsDetailsTitle = document.getElementById('newsDetailsModalLabel');
         newsDetailsTitle.innerText = newsDetails.title;
 
         const newsDetailsBody = document.getElementById('news-details-modal-body');
         newsDetailsBody.innerHTML = `
-        <img src="${newsDetails.image_url ? newsDetails.image_url : 'Not Given'}" class="img-fluid my-3">
-        <p><span class="fw-bold">Author:</span> ${newsDetails.author.name ? newsDetails.author.name : 'Not Given'}</p>
-        <p><span class="fw-bold">Published Date:</span> ${newsDetails.author.published_date ? newsDetails.author.published_date : 'Not Given'}</p>
-        <p><span class="fw-bold">Is Trending:</span> ${newsDetails.others_info.is_trending ? newsDetails.others_info.is_trending : 'Not Given'}</p>
-        <p><span class="fw-bold">Is Today's Pick:</span> ${newsDetails.others_info.is_todays_pick ? newsDetails.others_info.is_todays_pick : 'Not Given'}</p>
-        <p><span class="fw-bold">Rating:</span> ${newsDetails.rating.number ? newsDetails.rating.number : 'Not Given'}, ${newsDetails.rating.badge ? newsDetails.rating.badge : 'Not Given'}</p>
-        <p><span class="fw-bold">View:</span> ${newsDetails.total_view ? newsDetails.total_view : 'Not Given'}</p>
-        <p><span class="fw-bold">Details:</span> ${newsDetails.details ? newsDetails.details : 'Not Given'}</p>
+        <img src="${newsDetails.image_url ? newsDetails.image_url : 'No Data Available'}" class="img-fluid my-3">
+        <p><span class="fw-bold">Is Trending:</span> ${newsDetails.others_info.is_trending ? newsDetails.others_info.is_trending : 'No Data Available'}</p>
+        <p><span class="fw-bold">Is Today's Pick:</span> ${newsDetails.others_info.is_todays_pick ? newsDetails.others_info.is_todays_pick : 'No Data Available'}</p>
+        <p><span class="fw-bold">Rating:</span> ${newsDetails.rating.number ? newsDetails.rating.number : 'No Data Available'}, ${newsDetails.rating.badge ? newsDetails.rating.badge : 'No Data Available'}</p>
+        <p><span class="fw-bold">View:</span> ${newsDetails.total_view ? newsDetails.total_view : 'No Data Available'}</p>
+        <p><span class="fw-bold">Details:</span> ${newsDetails.details ? newsDetails.details : 'No Data Available'}</p>
+        <p class="fw-bold text-center my-4">============================</p>
+        <p><span class="fw-bold">Author Details:</span>
+            <img src="${newsDetails.author.img ? newsDetails.author.img : 'No Data Available'}" class="img-fluid rounded-circle my-3">
+            <p><span class="fw-bold">Name:</span>
+                ${newsDetails.author.name ? newsDetails.author.name : 'No Data Available'}
+            </p>
+            <p><span class="fw-bold">Published Date:</span> ${newsDetails.author.published_date ? newsDetails.author.published_date : 'No Data Available'}</p>
+        </p>
         `;
     });
 }
 
-// loader/spinner
+/* =====================================
+            loader/spinner
+====================================== */
 const toggleSpinner = isLoading => {
     const loader = document.getElementById('loader');
     if (isLoading) {
