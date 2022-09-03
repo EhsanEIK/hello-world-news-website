@@ -22,6 +22,8 @@ loadCategories();
 // load & show news by category id
 const loadNews = async id => {
     try {
+        // loader start
+        toggleSpinner(true);
         const url = `https://openapi.programming-hero.com/api/news/category/0${id}`;
         const res = await fetch(url);
         const data = await res.json();
@@ -77,6 +79,8 @@ const showNews = allNews => {
         `;
         newsContainer.appendChild(div);
     });
+    // loader end
+    toggleSpinner(false);
 }
 
 // load & show news details on modal by news_id
@@ -96,8 +100,8 @@ const showNewsDetails = newsAllDetails => {
         const newsDetailsBody = document.getElementById('news-details-modal-body');
         newsDetailsBody.innerHTML = `
         <img src="${newsDetails.image_url ? newsDetails.image_url : 'Not Given'}" class="img-fluid my-3">
-        <p><span class="fw-bold">Author:</span> ${newsDetails.author ? newsDetails.author.name : 'Not Given'}</p>
-        <p><span class="fw-bold">Published Date:</span> ${newsDetails.author ? newsDetails.author.published_date : 'Not Given'}</p>
+        <p><span class="fw-bold">Author:</span> ${newsDetails.author.name ? newsDetails.author.name : 'Not Given'}</p>
+        <p><span class="fw-bold">Published Date:</span> ${newsDetails.author.published_date ? newsDetails.author.published_date : 'Not Given'}</p>
         <p><span class="fw-bold">Is Trending:</span> ${newsDetails.others_info.is_trending ? newsDetails.others_info.is_trending : 'Not Given'}</p>
         <p><span class="fw-bold">Is Today's Pick:</span> ${newsDetails.others_info.is_todays_pick ? newsDetails.others_info.is_todays_pick : 'Not Given'}</p>
         <p><span class="fw-bold">Rating:</span> ${newsDetails.rating.number ? newsDetails.rating.number : 'Not Given'}, ${newsDetails.rating.badge ? newsDetails.rating.badge : 'Not Given'}</p>
@@ -105,4 +109,15 @@ const showNewsDetails = newsAllDetails => {
         <p><span class="fw-bold">Details:</span> ${newsDetails.details ? newsDetails.details : 'Not Given'}</p>
         `;
     });
+}
+
+// loader/spinner
+const toggleSpinner = isLoading => {
+    const loader = document.getElementById('loader');
+    if (isLoading) {
+        loader.classList.remove('d-none');
+    }
+    else {
+        loader.classList.add('d-none');
+    }
 }
