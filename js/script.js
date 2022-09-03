@@ -12,7 +12,7 @@ const showCategories = categories => {
         const div = document.createElement('div');
         div.classList.add('m-3');
         div.innerHTML = `
-        <button onclick="loadNews(${category.category_id})" class="btn btn-outline-secondary">${category.category_name}</button>
+        <button onclick="loadNews(${category.category_id},'${category.category_name}')" class="btn btn-outline-secondary">${category.category_name}</button>
         `;
         categoriesContainer.appendChild(div);
     });
@@ -20,20 +20,23 @@ const showCategories = categories => {
 loadCategories();
 
 // load & show news by category id
-const loadNews = async id => {
+const loadNews = async (id, categoryName) => {
     try {
         // loader start
         toggleSpinner(true);
         const url = `https://openapi.programming-hero.com/api/news/category/0${id}`;
         const res = await fetch(url);
         const data = await res.json();
-        showNews(data.data);
+        showNews(data.data, categoryName);
     }
     catch (error) {
         console.log(error);
     }
 }
-const showNews = allNews => {
+const showNews = (allNews, categoryName) => {
+    const totalNewsNumberShowElement = document.getElementById('total-news-number-show-element');
+    totalNewsNumberShowElement.innerText = `${allNews.length} news found for ${categoryName}`;
+
     const newsContainer = document.getElementById('news-container');
     newsContainer.innerHTML = '';
     allNews.forEach(news => {
