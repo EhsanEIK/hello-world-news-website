@@ -35,10 +35,16 @@ const loadNews = async (id, categoryName) => {
 }
 const showNews = (allNews, categoryName) => {
     const totalNewsNumberShowElement = document.getElementById('total-news-number-show-element');
-    totalNewsNumberShowElement.innerText = `${allNews.length} news found for ${categoryName}`;
-
+    if (allNews.length == 0) {
+        totalNewsNumberShowElement.innerText = 'No News Found!';
+    }
+    else {
+        totalNewsNumberShowElement.innerText = `${allNews.length} news found for ${categoryName}`;
+    }
     const newsContainer = document.getElementById('news-container');
     newsContainer.innerHTML = '';
+    // sorted by highest view news
+    allNews.sort((a, b) => b.total_view - a.total_view);
     allNews.forEach(news => {
         const div = document.createElement('div');
         div.classList.add('row', 'rounded-2', 'shadow', 'p-3', 'mt-5', 'mb-0', 'm-2');
