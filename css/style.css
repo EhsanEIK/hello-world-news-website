@@ -2,6 +2,14 @@
     height: 300px;
 }
 
+.author-image {
+    width: 50px;
+}
+
+.icon {
+    width: 20px;
+}
+
 footer {
     margin-top: 300px;
 }

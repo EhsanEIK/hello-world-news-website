@@ -41,7 +41,7 @@ const showNews = (allNews, categoryName) => {
     newsContainer.innerHTML = '';
     allNews.forEach(news => {
         const div = document.createElement('div');
-        div.classList.add('row', 'rounded-2', 'shadow', 'p-3', 'm-5');
+        div.classList.add('row', 'rounded-2', 'shadow', 'p-3', 'mt-5', 'mb-0', 'm-2');
         div.innerHTML = `
         <div onclick="loadNewsDetails('${news._id}')" class="col-lg-4" data-bs-toggle="modal" data-bs-target="#newsDetailsModal">
             <img src="${news.thumbnail_url ? news.thumbnail_url : 'Not Given'}">
@@ -57,7 +57,7 @@ const showNews = (allNews, categoryName) => {
                 <div class="col-lg-5">
                     <div class="row">
                         <div class="col-lg-3 d-flex align-items-center">
-                            <img src="${news.author.img ? news.author.img : 'Not Given'}" class="img-fluid rounded-circle">
+                            <img src="${news.author.img ? news.author.img : 'Not Given'}" class="author-image rounded-circle">
                         </div>
                         <div class="col-lg-9">
                             <p class="fw-semibold">
@@ -69,12 +69,12 @@ const showNews = (allNews, categoryName) => {
                 </div>
                 <div class="col-lg-5">
                     <h6>
-                        <img src="./icons/view.png" style="width: 20px;"> ${news.total_view ? news.total_view : 'Not Given'}
+                        <img src="./icons/view.png" class="icon"> ${news.total_view ? news.total_view : 'Not Given'}
                     </h6>
                 </div>
                 <div class="col-lg-2">
                 <a href="#">
-                    <img src="./icons/right-arrow.png" style="width: 20px;">
+                    <img src="./icons/right-arrow.png" class="icon"">
                 </a>
                 </div>
             </div>
